@@ -15,15 +15,15 @@
 
  Req:
  - ver: 0.3
-     [ ] Implement error handling
+     - Implement error handling
 
  Changelog:
  - ver: 0.2
-     [*] importing only the moudules that are needed - speed up the processing
-     [*] changed var "client" to "influxClient" for easier reading
-     [*] time needs to consider daylight savings time while writing to influxdb
-     [*] convert data collection, return to functions
-     [*] get list of sensors to use from API, without Manual setting (var: EnvSensorNames).
+     - importing only the moudules that are needed - speed up the processing
+     - changed var "client" to "influxClient" for easier reading
+     - time needs to consider daylight savings time while writing to influxdb
+     - convert data collection, return to functions
+     - get list of sensors to use from API, without Manual setting (var: EnvSensorNames).
 
  - ver: 0.1
-     * initial version
+     - initial version
