@@ -10,36 +10,12 @@ temperature, humidity and pressure data.
 
 Query via deCONZ REST API
 
-Target Users: Myself
-Target System: GNU/Linux
-Interface: Command Line
-Functional Requirements: return sensor data for data set: Temperature, Pressure, Humidity and write data to influxdb
-Testing: Simple run test - expecting result in influxdb.
-Python Requirements: influxdb (python3 -m pip install influxdb)
-API KEY for deCONZ: CABDBA56C4
-
-Written by: david (dot) gerbec (at) me (dot) com
-
-Req:
-- ver: 0.3
-    [ ] Implement error handling
-
-Changelog:
-- ver: 0.2
-    [*] importing only the moudules that are needed - speed up the processing
-    [*] changed var "client" to "influxClient" for easier reading
-    [*] time needs to consider daylight savings time while writing to influxdb
-    [*] convert data collection, return to functions
-    [*] get list of sensors to use from API, without Manual setting (var: EnvSensorNames).
-
-- ver: 0.1
-    * initial version
 """
 
 ___version___ = 0.3
 
 # Global Variables
-url = "http://10.0.5.251:8090/api/CABDBA56C4/sensors/"
+url = "http://10.0.5.250:8090/api/CABDBA56C4/sensors/"
 aqaraSesnorIdentifier = "LUMI"
 aqaraSensorModelID = "lumi.weather"
 aqaraSensorTypeTemperature = "ZHATemperature"
@@ -99,7 +75,7 @@ def connectToDatabase():
     """
 
     # Database Connection: (influxdb)
-    influxClient = InfluxDBClient(host=databaseHost, port=databasePort, database=databaseDatabase)
+    influxClient = InfluxDBClient(host=databaseHost, port=databasePort, database=databaseDatabase, timeout=5)
 
     return influxClient
 
@@ -126,21 +102,21 @@ def getEnvSensorValues():
                 sensorDataJsonBody['measurement'] = sensorName[i]
                 sensorDataJsonBody['tags'] = { 'sensor': 'temperature' }
                 sensorDataJsonBody['fields'] = { 'value': data[key]['state']['temperature'] }
-                connectToDatabase().write_points([sensorDataJsonBody])
+                #connectToDatabase().write_points([sensorDataJsonBody])
 
             elif dataSensor == sensorName[i] and dataSensorType == aqaraSensorTypeHumidty:
 
                 sensorDataJsonBody['measurement'] = sensorName[i]
                 sensorDataJsonBody['tags'] = { 'sensor': 'humidity' }
                 sensorDataJsonBody['fields'] = { 'value': data[key]['state']['humidity'] }
-                connectToDatabase().write_points([sensorDataJsonBody])
+                #connectToDatabase().write_points([sensorDataJsonBody])
 
             elif dataSensor == sensorName[i] and dataSensorType == aqaraSensorTypePressure:
 
                 sensorDataJsonBody['measurement'] = sensorName[i]
                 sensorDataJsonBody['tags'] = { 'sensor': 'pressure' }
                 sensorDataJsonBody['fields'] = { 'value': data[key]['state']['pressure'] }
-                connectToDatabase().write_points([sensorDataJsonBody])
+                #connectToDatabase().write_points([sensorDataJsonBody])
 
     return
 
