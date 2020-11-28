@@ -102,21 +102,21 @@ def getEnvSensorValues():
                 sensorDataJsonBody['measurement'] = sensorName[i]
                 sensorDataJsonBody['tags'] = { 'sensor': 'temperature' }
                 sensorDataJsonBody['fields'] = { 'value': data[key]['state']['temperature'] }
-                #connectToDatabase().write_points([sensorDataJsonBody])
+                connectToDatabase().write_points([sensorDataJsonBody])
 
             elif dataSensor == sensorName[i] and dataSensorType == aqaraSensorTypeHumidty:
 
                 sensorDataJsonBody['measurement'] = sensorName[i]
                 sensorDataJsonBody['tags'] = { 'sensor': 'humidity' }
                 sensorDataJsonBody['fields'] = { 'value': data[key]['state']['humidity'] }
-                #connectToDatabase().write_points([sensorDataJsonBody])
+                connectToDatabase().write_points([sensorDataJsonBody])
 
             elif dataSensor == sensorName[i] and dataSensorType == aqaraSensorTypePressure:
 
                 sensorDataJsonBody['measurement'] = sensorName[i]
                 sensorDataJsonBody['tags'] = { 'sensor': 'pressure' }
                 sensorDataJsonBody['fields'] = { 'value': data[key]['state']['pressure'] }
-                #connectToDatabase().write_points([sensorDataJsonBody])
+                connectToDatabase().write_points([sensorDataJsonBody])
 
     return
 
