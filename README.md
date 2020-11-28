@@ -6,7 +6,9 @@
  Interface: Command Line
  Functional Requirements: return sensor data for data set: Temperature, Pressure, Humidity and write data to influxdb
  Testing: Simple run test - expecting result in influxdb.
- Python Requirements: influxdb (python3 -m pip install influxdb)
+ Python Requirements: 
+	- influxdb (python3 -m pip install influxdb)
+	- pytz (python3 -m pip install pytz)
 
  Documentation on how to obtain the deCONZ API Key can be found here:
  https://dresden-elektronik.github.io/deconz-rest-doc/getting_started/
