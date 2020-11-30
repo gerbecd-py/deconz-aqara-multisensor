@@ -14,25 +14,30 @@ Query via deCONZ REST API
 
 ___version___ = 0.3
 
-# Global Variables
-url = "http://10.0.5.250:8090/api/CABDBA56C4/sensors/"
+# General Configuration
+deconzServerIPandPort = "CHANGE"
+deconzAPIKey = "CHANGE"
+
+# InfluxDB Configuration
+databaseHost = "CHANGE"
+databasePort = "CHANGE"
+databaseDatabase = "CHANGE"
+databaseUsername = "CHANGE"
+databasePassword = "CHANGE"
+
+# Static Sensor Information
 aqaraSesnorIdentifier = "LUMI"
 aqaraSensorModelID = "lumi.weather"
 aqaraSensorTypeTemperature = "ZHATemperature"
 aqaraSensorTypeHumidty = "ZHAHumidity"
 aqaraSensorTypePressure = "ZHAPressure"
 
-
-# InfluxDB Configuration
-databaseHost = "10.0.5.250"
-databasePort = "8086"
-databaseDatabase = "testInstance"
+# API URL
+url = "http://" + deconzServerIPandPort + "/api/" + deconzAPIKey + "/sensors/"
 
 def getAPIResult():
 
-    """
-    Function to get the REST API result needed from "url"
-    """
+    """Function to get the REST API result needed from 'url'"""
 
     # Get data from REST API
     restApiUrlOpen = urllib.request.urlopen(url, timeout=5).read()
@@ -41,9 +46,7 @@ def getAPIResult():
 
 def getEnvSensors():
 
-    """
-    Function to get a List - EnvSensorNames with all enviroment sensors names from the AQARA Sensor
-    """
+    """Function to get a List - EnvSensorNames with all enviroment sensors names from the AQARA Sensor"""
 
     contents = getAPIResult()
 
@@ -70,20 +73,22 @@ def getEnvSensors():
 
 def connectToDatabase():
 
-    """
-    Function to initiate Database Connection
-    """
+    """Function to initiate Database Connection"""
 
     # Database Connection: (influxdb)
-    influxClient = InfluxDBClient(host=databaseHost, port=databasePort, database=databaseDatabase, timeout=5)
+    influxClient = InfluxDBClient(
+                                host=databaseHost,
+                                port=databasePort,
+                                database=databaseDatabase,
+                                username=databaseUsername,
+                                password=databasePassword,
+                                timeout=5)
 
     return influxClient
 
 def getEnvSensorValues():
 
-    """
-    Thin function poll data from REST API creates DICT with correct format for INFLUXDB and inserts the data to the InfluxDB.
-    """
+    """Thin function poll data from REST API creates DICT with correct format for INFLUXDB and inserts the data to the InfluxDB."""
     sensorDataJsonBody = {}
     sensorDataJsonBody['time'] = datetime.now(timezone('Europe/Vienna'))
 
